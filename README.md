@@ -1,7 +1,7 @@
 Fetchmailrc generator
 =====================
 
-A simple PHP script which generates a .fetchmailrc file from a DB, based on ISPMail setup.
+A simple PHP script which generates a <code>.fetchmailrc</code> file from a DB, based on ISPMail setup.
 
 For more information see the following blog posts:
 

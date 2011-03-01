@@ -1,0 +1,74 @@
+<?php
+error_reporting(E_ALL);
+$conf = array();
+
+// Database settings
+define('DB_TYPE', 'mysql');
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'mailserver');
+define('DB_USER', 'mailuser');
+define('DB_PASS', 'mailpass');
+
+// Where to write the generated .fetchmailrc?
+$conf['fetchmailrc'] = '/var/vmail/.fetchmailrc';
+
+// Default options for fetchmail, will be prepended to .fetchmailrc
+$conf['default_options'] = <<<EOF
+set syslog
+set postmaster postmaster@example.com
+set no bouncemail
+
+defaults:
+timeout 300
+sslproto ssl23
+
+EOF;
+
+
+// The ISPMail database layout changed from the Etch to Lenny tutorial.
+// This script supports both setups, just set $conf['querytype'] to etch/lenny.
+//
+// Select the query fitting your setup here
+$conf['querytype'] = 'lenny';
+
+// ISPMail Etch style
+$conf['query']['etch'] = <<<EOF
+SELECT
+    f.id,
+    f.active,
+    f.remoteserver,
+    f.remoteuser,
+    f.remotepass,
+    f.options,
+    CONCAT(u.user, '@', d.name) AS destination
+FROM virtual_fetchmail f
+LEFT JOIN virtual_users u ON f.user_id = u.id
+LEFT JOIN virtual_domains d ON u.domain_id = d.id
+WHERE f.active = 1
+ORDER BY f.remoteserver ASC
+EOF;
+
+// ISPMail Lenny style
+$conf['query']['lenny'] = <<<EOF
+SELECT
+    f.id,
+    f.active,
+    f.remoteserver,
+    f.remoteuser,
+    f.remotepass,
+    f.options,
+    u.email
+FROM virtual_fetchmail f
+LEFT JOIN virtual_users u ON f.user_id = u.id
+WHERE f.active = 1
+ORDER BY f.remoteserver ASC
+EOF;
+
+
+try {
+    $db = new PDO(DB_TYPE . ':dbname=' . DB_NAME . ';host=' . DB_HOST, DB_USER, DB_PASS);
+    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    echo $e->getMessage() . "\n";
+    exit (1);
+}

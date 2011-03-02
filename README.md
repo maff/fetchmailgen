@@ -5,8 +5,8 @@ A simple PHP script which generates a <code>.fetchmailrc</code> file from a DB, 
 
 For more information see the following blog posts:
 
-* [http://ailoo.net/2011/03/fetchmail-sieve-on-ispmail-setup-update](http://ailoo.net/2011/03/fetchmail-sieve-on-ispmail-setup-update)
-* [http://ailoo.net/2008/08/fetchmail-sieve-virtual-mail-debian-etch](http://ailoo.net/2008/08/fetchmail-sieve-virtual-mail-debian-etch)
+* [http://ailoo.net/2011/03/fetchmail-sieve-on-ispmail-setup-update/](http://ailoo.net/2011/03/fetchmail-sieve-on-ispmail-setup-update/)
+* [http://ailoo.net/2008/08/fetchmail-sieve-virtual-mail-debian-etch/](http://ailoo.net/2008/08/fetchmail-sieve-virtual-mail-debian-etch/)
 
 Installation
 ------------
